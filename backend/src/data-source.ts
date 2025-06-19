@@ -1,4 +1,3 @@
-// src/data-source.ts
 import { DataSource } from "typeorm"
 import { Task } from "./entity/Task"
 import * as dotenv from "dotenv"

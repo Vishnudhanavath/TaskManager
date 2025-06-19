@@ -1,4 +1,4 @@
-// src/entity/Task.ts
+
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 import { IsNotEmpty } from "class-validator";

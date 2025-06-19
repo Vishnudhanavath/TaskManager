@@ -46,7 +46,7 @@ export default function TaskList() {
     fetchTasks();
   };
 
-  //======= deletes the task and before deleting it asks the user to make sure to decide with help window========
+  
   const deleteTask = async (id: string) => {
     const confirm = window.confirm("Are you sure you want to delete this task?");
     if (!confirm) return;
@@ -57,7 +57,6 @@ export default function TaskList() {
     fetchTasks(); 
   };
 
-    //===== it filters the task  according to the status =============
     const filteredTasks = tasks.filter((task) =>
         filter === "all" ? true: task.status === filter
     );
@@ -69,6 +68,7 @@ export default function TaskList() {
     <div className="space-y-4">
 
         <div className="space-y-4">
+            <h1 className="text-lg text-black-600">Filter</h1>
             <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
@@ -151,13 +151,15 @@ export default function TaskList() {
                     <div className="flex flex-col gap-2">
                     <button
                         onClick={() => setEditingTask(task)}
-                        className="text-blue-500 hover:text-blue-700"
+                        // className="text-blue-500 hover:text-blue-700"
+                        className="bg-blue-500 text-white px-3 py-1 rounded"
                     >
                         Edit
                     </button>
                     <button
                         onClick={() => deleteTask(task.id)}
-                        className="text-red-500 hover:text-red-700"
+                        // className="text-red-500 hover:text-red-700"
+                        className="bg-red-500 text-white px-3 py-1 rounded"
                     >
                         Delete
                     </button>

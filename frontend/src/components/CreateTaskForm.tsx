@@ -94,7 +94,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                     <option value = "done">Done</option>
                 </select>
             </div>
-            <button>
+            <button className="bg-blue-500 text-white px-3 py-1 rounded">
                 {loading ? "Creating..." : "Create Task"}
             </button>
             {

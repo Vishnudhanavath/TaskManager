@@ -2,15 +2,40 @@ import { Request, Response, NextFunction } from "express";
   import { AppDataSource } from "../data-source"
   import { Task } from "../entity/Task"
   import { Router } from "express";
+import { parse } from "path";
   const router = Router();
 
+  import { ILike } from "typeorm";
 
+  router.get("/tasks", async (req, res) => {
+    const taskRepo = AppDataSource.getRepository(Task);
 
-  router.get("/tasks", async (_, res) => {
-    const taskRepo = AppDataSource.getRepository(Task)
-    const tasks = await taskRepo.find()
-    res.json(tasks)
-  })
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+    const search = (req.query.search as string) || "";
+
+    const where = search
+      ? [
+          { title: ILike(`%${search}%`) },
+          { description: ILike(`%${search}%`) },
+        ]
+      : {};
+
+    const [tasks, total] = await taskRepo.findAndCount({
+      where,
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: "DESC" },
+    });
+
+    res.json({
+      tasks,
+      total,
+      page,
+      lastPage: Math.ceil(total / limit),
+    });
+});
+
 
   router.post("/tasks", async (req, res) => {
     const taskRepo = AppDataSource.getRepository(Task)

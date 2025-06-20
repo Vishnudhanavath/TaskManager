@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import Spinner from "./Spinner";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
  const CreateTaskForm = () => {
@@ -42,7 +42,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-6">
+        <div>
+            {
+                loading ? <Spinner/> :(
+                    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-6">
             <h2 className="text-xl font-bold mb-4 ">Create New Task</h2>
             <div className="mb-4">
                 <label className="block font-medium mb-1">Title</label>
@@ -51,7 +54,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                  value={formData.title}
                  onChange={handleChange}
                  required
-                 className="w-full border rounded px-3 py-2"
+                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                 />
             </div>
             <div className="mb-4">
@@ -63,7 +66,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                     value={formData.description}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full border rounded px-3 py-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                 />
             </div>
             <div className="mb-4">
@@ -75,7 +78,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                     name="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange}
-                    className="w-full border rounded px-3 py-2"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base text-gray-700"
                 />
             </div>
 
@@ -87,20 +91,26 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
-                    className="w-full border rounded px-3 py-2"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base text-gray-700"
                 >
                     <option value = "todo">To Do</option>
                     <option value= "in_progress">In Progress</option>
                     <option value = "done">Done</option>
                 </select>
             </div>
-            <button className="bg-blue-500 text-white px-3 py-1 rounded">
-                {loading ? "Creating..." : "Create Task"}
+            <button className="bg-blue-500 hover:bg-blue-700 text-base text-white font-bold px-3 py-1 rounded cursor-pointer">
+                {/* {loading ? "Creating" : "Create Task"} */}
+                Create Task
             </button>
             {
-                message  && <p className="mt-4 text-sm">{message}</p>
+                message  && <p className="mt-4 text-sm text-green-500 font-bold">{message}</p>
             }
         </form>
+                )
+            }
+
+        </div>
+        
     )
 
  }

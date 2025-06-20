@@ -20,17 +20,36 @@ export default function TaskList() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
 
-  const fetchTasks = async () => {
-    const res = await fetch(`${API_URL}/tasks`);
-    const data = await res.json();
-    setTasks(data);
-    setLoading(false);
-  };
+const fetchTasks = async () => {
+  setLoading(true);
+  const res = await fetch(
+    `${API_URL}/tasks?page=${page}&limit=5&search=${encodeURIComponent(search)}`
+  );
+  const data = await res.json();
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+  setTasks(data.tasks);
+  setTotalPages(data.lastPage);
+  setLoading(false);
+};
+
+
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    setQuery(search); 
+  }, 1000); 
+
+  return () => clearTimeout(timeout);
+}, [search]);
+
+useEffect(() => {
+  fetchTasks();
+}, [page]);
+
 
   const handleEditSubmit = async (e: any) => {
     e.preventDefault();
@@ -72,7 +91,7 @@ export default function TaskList() {
             <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                className="border px-2 py-1 rounded"
+                className="w-semi max-w-sm px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base text-gray-700"
             >
                 <option value="all">All</option>
                 <option value="todo">To Do</option>
@@ -80,6 +99,28 @@ export default function TaskList() {
                 <option value="done">Done</option>
             </select>
         </div>
+        <div className="flex items-center gap-2 mb-4">
+            <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search tasks..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+            />
+            <button
+                 onClick={() => {
+                    setPage(1);
+                    fetchTasks();
+                }}
+
+                className="bg-blue-500 text-white px-3 py-2  rounded cursor-pointer"
+            >
+                Search
+            </button>
+        </div>
+
+        <div>
+          
         {
             
             filteredTasks.map(task =>(
@@ -124,13 +165,13 @@ export default function TaskList() {
                         className="w-full border rounded px-2 py-1"
                         />                        
                         <div className="flex gap-2">
-                            <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">
+                            <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded cursor-pointer">
                                 Save
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setEditingTask(null)}
-                                className="bg-gray-400 text-white px-3 py-1 rounded"
+                                className="bg-gray-400 text-white px-3 py-1 rounded cursor-pointer"
                             >
                                 Cancel
                             </button>
@@ -140,7 +181,7 @@ export default function TaskList() {
                 ):(
                     <div
                     key={task.id}
-                    className="bg-white p-4 rounded shadow flex justify-between items-start"
+                    className="bg-white p-4 rounded shadow flex justify-between items-start mb-2 "
                 >
                     <div>
                     <h3 className="text-lg font-semibold">{task.title}</h3>
@@ -151,15 +192,13 @@ export default function TaskList() {
                     <div className="flex flex-col gap-2">
                     <button
                         onClick={() => setEditingTask(task)}
-                        // className="text-blue-500 hover:text-blue-700"
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                        className="bg-sky-500 hover:bg-sky-700 text-white px-3 py-1 rounded cursor-pointer"
                     >
                         Edit
                     </button>
                     <button
                         onClick={() => deleteTask(task.id)}
-                        // className="text-red-500 hover:text-red-700"
-                        className="bg-red-500 text-white px-3 py-1 rounded"
+                        className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded cursor-pointer"
                     >
                         Delete
                     </button>
@@ -169,6 +208,25 @@ export default function TaskList() {
                 )
             ))
         }
+          
+        </div>
+        <div className="flex justify-center mt-4 gap-2">
+            <button
+                disabled={page <= 1}
+                onClick={() => setPage((prev) => prev - 1)}
+                className="bg-gray-300 px-3 py-1 rounded disabled:opacity-50 cursor-pointer"
+            >
+                Previous
+            </button>
+            <span className="self-center">Page {page} of {totalPages}</span>
+            <button
+                disabled={page >= totalPages}
+                onClick={() => setPage((prev) => prev + 1)}
+                className="bg-gray-300 px-3 py-1 rounded disabled:opacity-50 cursor-pointer"
+            >
+                Next
+            </button>
+        </div>
     </div>
 
   )

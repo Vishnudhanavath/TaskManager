@@ -29,7 +29,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
             if (!res.ok) throw new Error("Failed to create task");
             setFormData({ title: "", description: "", dueDate: "", status: "todo" });
             setMessage("Task created successfully");   
-        }catch(err){
+        }catch(_){
             setMessage("Error while creating task");
         }finally{
             setLoading(false);
@@ -37,7 +37,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
     };   
 
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -99,7 +99,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
                 </select>
             </div>
             <button className="bg-blue-500 hover:bg-blue-700 text-base text-white font-bold px-3 py-1 rounded cursor-pointer">
-                {/* {loading ? "Creating" : "Create Task"} */}
+              
                 Create Task
             </button>
             {

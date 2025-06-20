@@ -10,8 +10,8 @@ type Task = {
   title: string;
   description?: string;
   status: string;
-  dueDate?: String;
-  createdDate:String;
+  dueDate?: string;
+  createdDate:string;
 };
 
 export default function TaskList() {
@@ -48,10 +48,10 @@ useEffect(() => {
 
 useEffect(() => {
   fetchTasks();
-}, [page]);
+}, [page,query]);
 
 
-  const handleEditSubmit = async (e: any) => {
+  const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editingTask) return;
 

@@ -35,11 +35,13 @@ cd backend
 npm install
 npm run dev
 Runs on http://localhost:5000
-
+```
 ### Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 http://localhost:3000
+```
+
 

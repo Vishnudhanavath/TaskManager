@@ -29,7 +29,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
             if (!res.ok) throw new Error("Failed to create task");
             setFormData({ title: "", description: "", dueDate: "", status: "todo" });
             setMessage("Task created successfully");   
-        }catch(_){
+        }catch{
             setMessage("Error while creating task");
         }finally{
             setLoading(false);

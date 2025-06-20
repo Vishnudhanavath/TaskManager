@@ -43,5 +43,12 @@ npm install
 npm run dev
 http://localhost:3000
 ```
+Add `env` configuration:
+```markdown
+> Make sure to set the environment variable in `frontend/.env.local`:
+```
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url.onrender.com/api
+
 
 

@@ -14,7 +14,7 @@ A simple and efficient full-stack Task Manager application built with:
 
 - ✅ Create, update, delete tasks
 - 🗂️ Filter tasks by status (To Do, In Progress, Done)
-- 🔍 Search and pagination (coming soon)
+- 🔍 Search and pagination 
 - 📆 Due date and status tracking
 - 🎯 Responsive and clean UI with Tailwind CSS
 
